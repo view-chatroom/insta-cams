@@ -1,0 +1,138 @@
+
+<!-- *****************************************************************
+     LIVE RANDOM VIDEO-CHAT  (noindex)  v2.1
+     • mobile “scroll bar” removed (100dvh + overflow:hidden)
+     • “✕” hides promo-bar → chat iframe expands
+***************************************************************** -->
+<!DOCTYPE html><html lang="en">
+<head><meta charset="utf-8">
+<title>Live Random Video Chat</title>
+
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  /* основные настройки */
+  --barDeskH   : 100px; /* высота promo на десктопе  */
+  --scaleDesk  : .92;   /* масштаб баннера desktop   */
+  --barMobileH : 130px; /* высота promo на мобиле    */
+  --scaleMobile: .78;   /* масштаб баннера mobile    */
+  --shiftY     : -6px;  /* лёгкий подъём mobile      */
+  --closeSize  : 30px;  /* диаметр крестика          */
+}
+
+/* базовая раскладка — убираем скролл --------------------------- */
+html,body{
+  height:100dvh;             /* реальная высота viewport’а */
+  margin:0;
+  overflow:hidden;           /* блокируем прокрутку */
+  font-family:system-ui,sans-serif;
+  background:#000;
+}
+/* fallback, если браузер не знает dvh */
+@supports not (height:100dvh){
+  html,body{height:100%;}
+}
+
+.wrap{display:flex;flex-direction:column;height:100dvh;}
+@supports not (height:100dvh){
+  .wrap{height:100%;}
+}
+
+/* ---------- VIDEO CHAT (верх) ---------- */
+#coomeet_container{flex:1 1 auto;width:100%;}
+#coomeet_container iframe{border:0;width:100%;height:100%;}
+
+/* ---------- PROMO BAR (низ) ------------ */
+.promo-bar{
+  position:relative;
+  flex:0 0 var(--barDeskH);
+  background:#f3f5fb;                /* нужный фон */
+  display:flex;justify-content:center;align-items:center;
+  padding:0 8px;box-sizing:border-box;overflow:hidden;
+}
+.promo-wrap{position:relative;width:100%;max-width:660px;height:100%;overflow:hidden;}
+.promo-iframe{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;border:0;
+  transform-origin:top left;
+}
+
+/* ---------- CLOSE BUTTON --------------- */
+.close-btn{
+  position:absolute;top:6px;right:8px;
+  width:var(--closeSize);height:var(--closeSize);
+  border-radius:50%;border:none;cursor:pointer;
+  background:rgba(0,0,0,.55);
+  color:#fff;font-size:20px;line-height:var(--closeSize);
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px);
+  transition:background .2s, transform .15s;
+}
+.close-btn:hover{background:rgba(0,0,0,.75);transform:scale(1.08);}
+.close-btn:active{transform:scale(.92);}
+
+/* ---------- DESKTOP ≥801 px ------------ */
+@media(min-width:801px){
+  .promo-iframe{
+    transform:scale(var(--scaleDesk));
+    width:calc(100%/var(--scaleDesk));
+    height:calc(100%/var(--scaleDesk));
+  }
+}
+
+/* ---------- TABLET 800‒541 px ---------- */
+@media(max-width:800px){
+  .promo-iframe{transform:scale(.9);width:112%;height:112%;}
+}
+
+/* ---------- MOBILE ≤540 px ------------- */
+@media(max-width:540px){
+  .promo-bar{flex-basis:var(--barMobileH);}
+  .promo-wrap{max-width:none;}
+  .promo-iframe{
+    transform:scale(var(--scaleMobile)) translateY(var(--shiftY));
+    width:calc(100%/var(--scaleMobile) + .5px);
+    height:calc(100%/var(--scaleMobile) + .5px);
+  }
+}
+</style>
+</head><body>
+<div class="wrap">
+
+  <!-- 💬  ВИДЕО-ЧАТ -->
+  <div id="coomeet_container">
+    <script>
+      var _coomeet=[];_coomeet['PartnerId']=16539914132472;
+      (function(){
+        var s=document.createElement('script');
+        s.async=true;s.src='https://iframe.coomeet.me/js/code.js';
+        document.currentScript.parentNode.insertBefore(s,document.currentScript);
+      })();
+    </script>
+  </div>
+
+  <!-- 📢  ПРОМО-БАР + крестик -->
+  <div class="promo-bar" id="promoBar">
+    <div class="promo-wrap">
+      <iframe class="promo-iframe"
+              src="https://demogames.site/btn/1/"
+              loading="lazy"
+              title="Dating offers">
+      </iframe>
+    </div>
+    <button class="close-btn" id="closePromo" aria-label="Close banner">✕</button>
+  </div>
+
+</div>
+
+<script>
+/* ===== закрываем promo-bar по клику ===== */
+document.getElementById('closePromo').addEventListener('click',()=>{
+  const bar=document.getElementById('promoBar');
+  bar.remove();                           // или bar.style.display='none';
+});
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"d1714b70a287406eb510b6ee52b05fcd","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body></html>
